@@ -33,12 +33,11 @@ namespace IndoorNav
             return new Point(0, 0);
         }
 
-        public static Point[] GetCircleIntersections(Point center1, Point center2, double r1, double r2)
+        public static Point[] GetCircleIntersections(Point c1, Point c2, double r1, double r2)
         {
-            (double x1, double y1, double x2, double y2) = (center1.X, center1.Y, center2.X, center2.Y);
-            double d = Math.Sqrt(Math.Pow(x1 - x2, 2) + Math.Pow(y1 - y2, 2));
+            (double x1, double y1, double x2, double y2) = (c1.X, c1.Y, c2.X, c2.Y);
+            double d = c1.Distance(c2);
 
-            // Return an empty array if there are no intersections
             if (!(Math.Abs(r1 - r2) <= d && d <= r1 + r2)) { return new Point[0]; }
 
             // Intersections i1 and possibly i2 exist
