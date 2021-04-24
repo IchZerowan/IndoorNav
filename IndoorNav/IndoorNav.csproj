@@ -48,6 +48,7 @@
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
     <Compile Include="CSVParser.cs" />
+    <Compile Include="DrawPointsOnImage.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="RoomData.cs" />
     <Compile Include="MainForm.cs">
@@ -88,6 +89,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="image.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

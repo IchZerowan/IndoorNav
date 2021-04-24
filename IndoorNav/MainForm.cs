@@ -16,6 +16,10 @@ namespace IndoorNav
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            //List<Point> lp = new List<Point>();
+            //lp.Add(new Point(1, 3));
+            //DrawPointsOnImage.Draw(lp, pictureBoxGraphics.Image);
+
             instance = this;
             var data = CSVParser.ReadCSV("data-1-1.csv");
 
