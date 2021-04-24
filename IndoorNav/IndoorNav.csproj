@@ -70,6 +70,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="data-1-1.csv" />
+    <None Include="data-1-2.csv" />
+    <None Include="data-1-3.csv" />
+    <None Include="data-2-1.csv" />
+    <None Include="data-2-6.csv" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
