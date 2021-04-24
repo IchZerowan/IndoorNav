@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace IndoorNav
 {
-    class GetPointData
+    class RoomData
     {
-        public Algorithm.Point getBeaconCoordinates(int beaconId){
+        public Algorithm.Point GetCoordinates(int beaconId){
             Algorithm.Point beaconPoint = new Algorithm.Point(0, 0);
             if (beaconId == 1)
             {
