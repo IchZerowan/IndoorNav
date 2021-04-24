@@ -64,6 +64,7 @@
             this.Controls.Add(this.textBoxLog);
             this.Name = "MainForm";
             this.Text = "IndoorNav";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxGraphics)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

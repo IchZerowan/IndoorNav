@@ -19,6 +19,13 @@ namespace IndoorNav
             InitializeComponent();
         }
 
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            instance = this;
+            var data = CSVParser.ReadCSV("data-1-1.csv");
+
+        }
+
         public static void Log(object message)
         {
             Console.WriteLine(message);
