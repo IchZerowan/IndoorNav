@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace IndoorNav
@@ -23,7 +16,12 @@ namespace IndoorNav
         {
             instance = this;
             var data = CSVParser.ReadCSV("data-1-1.csv");
-
+            for(int i = 0; i < data.Count - 2; i++)
+            {
+                Point p = Algorithm.Trilateration(data[i], data[i + 1], data[i + 2]);
+                int room = RoomData.GetRoom(p);
+                Log("C" + room);
+            }
         }
 
         public static void Log(object message)

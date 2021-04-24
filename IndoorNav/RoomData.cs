@@ -2,17 +2,17 @@
 {
     class RoomData
     {
-        private static Algorithm.Point[] coords =
+        private static Point[] coords =
         {
-            new Algorithm.Point(3.3, 0),
-            new Algorithm.Point(0.3, 0),
-            new Algorithm.Point(0.23, 21),
-            new Algorithm.Point(3.47, 20.8),
-            new Algorithm.Point(0.67, 7.8),
-            new Algorithm.Point(2.96, 12)
+            new Point(0, 3.3),
+            new Point(0, 0.3),
+            new Point(21, 0.23),
+            new Point(20.8, 3.47),
+            new Point(7.8, 0.67),
+            new Point(12, 2.96)
         };
 
-        public static Algorithm.Point GetCoordinates(int beaconId){
+        public static Point GetCoordinates(int beaconId){
             return coords[beaconId - 1];
         }
 
@@ -21,7 +21,7 @@
             return 2;
         }
 
-        public static int GetSquare(Algorithm.Point position)
+        public static int GetRoom(Point position)
         {
             if (position.X < 7.8)
             {

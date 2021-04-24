@@ -6,31 +6,8 @@ namespace IndoorNav
     class Algorithm
     {
         public const double MEASURED_POWER = -69;
-        public class Point
-        {
-            public double X { get; set; }
-            public double Y { get; set; }
 
-            public Point(double x, double y)
-            {
-                X = x;
-                Y = y;
-            }
-
-            public Point() { }
-
-            public double Distance(Point p2)
-            {
-                return Math.Sqrt(Math.Pow(X - p2.X, 2) + Math.Pow(X - p2.X, 2));
-            }
-
-            public Point Avg(Point p2)
-            {
-                return new Point((X + p2.X) / 2, (Y + p2.Y) / 2);
-            }
-        }
-
-        Point Trilateration(PointData pd1, PointData pd2, PointData pd3)
+        public static Point Trilateration(PointData pd1, PointData pd2, PointData pd3)
         {
             Point pc1 = RoomData.GetCoordinates(pd1.id);
             Point pc2 = RoomData.GetCoordinates(pd2.id);
@@ -67,7 +44,7 @@ namespace IndoorNav
             return bestPoint;
         }
 
-        public double DistanceFromRssi(PointData pd)
+        public static double DistanceFromRssi(PointData pd)
         {
             return Math.Pow(10, (MEASURED_POWER - pd.rssi) / (10 * RoomData.GetEnvFactor(pd.id)));
         }
