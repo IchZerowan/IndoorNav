@@ -18,10 +18,10 @@ namespace IndoorNav
         private void MainForm_Load(object sender, EventArgs e)
         {
             Process("1-1");
-            Process("1-2");
-            Process("1-3");
-            Process("2-1");
-            Process("2-6");
+            //Process("1-2");
+            //Process("1-3");
+            //Process("2-1");
+            //Process("2-6");
         }
 
         private void Process(string name)
@@ -53,7 +53,7 @@ namespace IndoorNav
                             p = Algorithm.Trilateration(temp[0], temp[1], temp[2]);
                         }
 
-                        if (p != null)
+                        if (p != null && RoomData.IsInBounds(p))
                         {
                             Out(p, time);
                         }
@@ -92,12 +92,18 @@ namespace IndoorNav
                 if ((time - last.Time).TotalSeconds < 5)
                 {
                     Log("Less then 5s, skip");
+                    last.Point = p;
+                    last.Time = time;
                 }
                 else
                 {
                     string message = "C" + RoomData.GetRoom(last.Point) + " B" + RoomData.GetClosest(last.Point);
-                    Log(message);
-                    result += message + "\n";
+                    if(message != previous) {
+                        Log(message);
+                        Log(p.X + ";" + p.Y);
+                        result += message + "\n";
+                    }
+                    previous = message;
                     points.Add(new PointTime(p, time));
                 }
             } else
@@ -110,17 +116,16 @@ namespace IndoorNav
         public void SaveFile(string filename)
         {
             File.WriteAllText(filename, result);
-            //DrawPointsOnImage.Draw(points, pictureBoxGraphics.Image);
-            Task.Run(()=> DrawAnim(new List<Point>(points)));
+            List<Point> toDraw = new List<Point>();
+            toDraw.AddRange(points.Select(pointTime => pointTime.Point));
+            Task.Run(()=> DrawAnim(toDraw));
 
             points.Clear();
             result = "";
         }
 
-        public async Task<bool> DrawAnim(List<Point> lp)
+        public async Task<bool> DrawAnim(List<Point> c_lp)
         {
-            List<Point> c_lp = new List<Point>(lp);
-
             List<Point> draw_lp = new List<Point>();
 
             for (int i = 0; i < c_lp.Count; i++)

@@ -55,5 +55,10 @@ namespace IndoorNav
             }
             return closest + 1;
         }
+
+        public static bool IsInBounds(Point p)
+        {
+            return p.X >= 0 && p.X <= 21 && p.Y >= 0 && p.Y <= 4.6;
+        }
     }
 }
