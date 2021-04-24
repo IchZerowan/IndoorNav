@@ -1,4 +1,6 @@
-﻿namespace IndoorNav
+﻿using System.Linq;
+
+namespace IndoorNav
 {
     class RoomData
     {
@@ -35,6 +37,21 @@
             {
                 return 1;
             }
+        }
+
+        public static int GetClosest(Point position)
+        {
+            double minDistance = double.MaxValue;
+            foreach(Point pt in coords)
+            {
+                double distance = pt.Distance(position);
+                if(distance < minDistance)
+                {
+
+                    minDistance = distance;
+                }
+            }
+            return 0;
         }
     }
 }
