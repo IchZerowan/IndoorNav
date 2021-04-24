@@ -1,5 +1,6 @@
 ﻿
 using IndoorNav;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,16 +16,15 @@ namespace IndoorNav
 
             using (StreamReader sr = new StreamReader(pathToFile))
             {
+                sr.ReadLine();
                 while (sr.Peek() >= 0)
                 {
                     string line = sr.ReadLine();
                     PointData pd = new PointData();
-                    pd.FirstTimeStamp = line.Split(',')[0];
-                    pd.device_name = line.Split(',')[1];
-                    pd.mac_addr = line.Split(',')[2];
-                    pd.eddystone_instance_id = line.Split(',')[3];
-                    pd.rssi = line.Split(',')[4];
-                    pd.timestamp = line.Split(',')[5];
+                    string[] splitted = line.Split(',');
+                    pd.id = Convert.ToInt32(splitted[3]);
+                    pd.rssi = Convert.ToInt32(splitted[4]);
+                    pd.timestamp = splitted[5];
 
                     data.Add(pd);
                 }
