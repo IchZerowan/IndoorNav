@@ -18,10 +18,10 @@ namespace IndoorNav
         private void MainForm_Load(object sender, EventArgs e)
         {
             Process("1-1");
-            //Process("1-2");
-            //Process("1-3");
-            //Process("2-1");
-            //Process("2-6");
+            Process("1-2");
+            Process("1-3");
+            Process("2-1");
+            Process("2-6");
         }
 
         private void Process(string name)
@@ -38,6 +38,7 @@ namespace IndoorNav
                     Log("Temp count: " + temp.Count);
                     if (temp.Count >= 3)
                     {
+                        DateTime time = temp[temp.Count - 1].timestamp;
                         temp.Sort((pd1, pd2) => pd1.rssi.CompareTo(pd2.rssi));
                         temp.Reverse();
                         Point p = null;
@@ -54,7 +55,7 @@ namespace IndoorNav
 
                         if (p != null)
                         {
-                            Out(p);
+                            Out(p, time);
                         }
                         else
                         {
@@ -82,18 +83,28 @@ namespace IndoorNav
 
         private string result = "";
         private string previous = "";
-        private List<Point> points = new List<Point>();
-        public void Out(Point p)
+        private List<PointTime> points = new List<PointTime>();
+        public void Out(Point p, DateTime time)
         {
-            string message = "C" + RoomData.GetRoom(p) + " B" + RoomData.GetClosest(p);
-            Log(message);
-            if (previous == message)
+            if(points.Count > 0)
             {
-                return;
+                var last = points.Last();
+                if ((time - last.Time).TotalSeconds < 5)
+                {
+                    Log("Less then 5s, skip");
+                }
+                else
+                {
+                    string message = "C" + RoomData.GetRoom(last.Point) + " B" + RoomData.GetClosest(last.Point);
+                    Log(message);
+                    result += message + "\n";
+                    points.Add(new PointTime(p, time));
+                }
+            } else
+            {
+                points.Add(new PointTime(p, time));
             }
-            previous = message;
-            result += message + "\n";
-            points.Add(p);
+            
         }
 
         public void SaveFile(string filename)

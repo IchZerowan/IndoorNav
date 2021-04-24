@@ -21,7 +21,7 @@ namespace IndoorNav
                     string[] splitted = line.Split(',');
                     pd.id = Convert.ToInt32(splitted[3]);
                     pd.rssi = Convert.ToDouble(splitted[4].Replace('.', ','));
-                    pd.timestamp = splitted[5];
+                    pd.timestamp = DateTime.ParseExact(splitted[5], "yyyy-MM-dd HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
 
                     data.Add(pd);
                 }

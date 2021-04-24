@@ -50,6 +50,7 @@
     <Compile Include="CSVParser.cs" />
     <Compile Include="DrawPointsOnImage.cs" />
     <Compile Include="Point.cs" />
+    <Compile Include="PointTime.cs" />
     <Compile Include="RoomData.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
