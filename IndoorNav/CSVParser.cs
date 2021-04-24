@@ -23,7 +23,7 @@ namespace IndoorNav
                     PointData pd = new PointData();
                     string[] splitted = line.Split(',');
                     pd.id = Convert.ToInt32(splitted[3]);
-                    pd.rssi = Convert.ToInt32(splitted[4]);
+                    pd.rssi = Convert.ToDouble(splitted[4].Replace('.', ','));
                     pd.timestamp = splitted[5];
 
                     data.Add(pd);

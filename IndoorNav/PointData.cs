@@ -11,7 +11,7 @@ namespace IndoorNav
     {
         //,device_name,mac_addr,eddystone_instance_id,rssi,timestamp
         public int id { get; set; }
-        public int rssi { get; set; }
+        public double rssi { get; set; }
         public string timestamp { get; set; }
     }
 }

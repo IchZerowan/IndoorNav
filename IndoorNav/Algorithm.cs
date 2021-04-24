@@ -10,8 +10,8 @@ namespace IndoorNav
     {
         struct Point
         {
-            float X { get; set; }
-            float Y { get; set; }
+            double X { get; set; }
+            double Y { get; set; }
 
             public Point(int x, int y)
             {
@@ -22,7 +22,7 @@ namespace IndoorNav
 
         Point Trilateration(PointData pd1, PointData pd2, PointData pd3)
         {
-            return null;
+            return new Point(0, 0);
         }
     }
 }
