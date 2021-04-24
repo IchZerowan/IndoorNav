@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace IndoorNav
 {
     class Algorithm
     {
+        public const double MEASURED_POWER = -69;
         public class Point
         {
             public double X { get; set; }
@@ -21,26 +23,63 @@ namespace IndoorNav
             {
                 return Math.Sqrt(Math.Pow(X - p2.X, 2) + Math.Pow(X - p2.X, 2));
             }
+
+            public Point Avg(Point p2)
+            {
+                return new Point((X + p2.X) / 2, (Y + p2.Y) / 2);
+            }
         }
 
         Point Trilateration(PointData pd1, PointData pd2, PointData pd3)
         {
-            Point pc1 = new Point(0, 0);
-            Point pc2 = new Point(0, 0);
-            Point pc3 = new Point(0, 0);
+            Point pc1 = RoomData.GetCoordinates(pd1.id);
+            Point pc2 = RoomData.GetCoordinates(pd2.id);
+            Point pc3 = RoomData.GetCoordinates(pd3.id);
 
+            List<Point> results = new List<Point>();
+
+            double d1 = DistanceFromRssi(pd1);
+            double d2 = DistanceFromRssi(pd2);
+            double d3 = DistanceFromRssi(pd3);
+
+            GetCircleIntersections(results, pc1, pc2, d1, d2);
+            GetCircleIntersections(results, pc2, pc3, d2, d3);
+            GetCircleIntersections(results, pc1, pc3, d1, d3);
+
+            double minDistance = double.MaxValue;
+            Point bestPoint = null;
+            foreach(Point p1 in results)
+            {
+                foreach (Point p2 in results)
+                {
+                    if(p1 != p2)
+                    {
+                        double distance = p1.Distance(p2);
+                        if(distance < minDistance)
+                        {
+                            bestPoint = p1.Avg(p2);
+                            distance = minDistance;
+                        }
+                    }
+                }
+            }
             
-            return new Point(0, 0);
+            return bestPoint;
         }
 
-        public static Point[] GetCircleIntersections(Point c1, Point c2, double r1, double r2)
+        public double DistanceFromRssi(PointData pd)
+        {
+            return Math.Pow(10, (MEASURED_POWER - pd.rssi) / (10 * RoomData.GetEnvFactor(pd.id)));
+        }
+
+        public static void GetCircleIntersections(List<Point> results, Point c1, Point c2, double r1, double r2)
         {
             (double x1, double y1, double x2, double y2) = (c1.X, c1.Y, c2.X, c2.Y);
             double d = c1.Distance(c2);
 
-            if (!(Math.Abs(r1 - r2) <= d && d <= r1 + r2)) { return new Point[0]; }
+            if (!(Math.Abs(r1 - r2) <= d && d <= r1 + r2)) 
+                return; 
 
-            // Intersections i1 and possibly i2 exist
             var dsq = d * d;
             var (r1sq, r2sq) = (r1 * r1, r2 * r2);
             var r1sq_r2sq = r1sq - r2sq;
@@ -56,7 +95,8 @@ namespace IndoorNav
             var i1 = new Point((float)(fx + gx), (float)(fy + gy));
             var i2 = new Point((float)(fx - gx), (float)(fy - gy));
 
-            return new Point[] { i1, i2 };
+            results.Add(i1);
+            results.Add(i2);
         }
     }
 }
