@@ -17,7 +17,7 @@ namespace IndoorNav
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Process("1-1");
+            Process("1-3");
             //Process("1-2");
             //Process("1-3");
             //Process("2-1");

@@ -41,13 +41,14 @@
             // 
             // textBoxLog
             // 
+            this.textBoxLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.textBoxLog.Location = new System.Drawing.Point(0, 0);
             this.textBoxLog.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
             this.textBoxLog.ReadOnly = true;
             this.textBoxLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBoxLog.Size = new System.Drawing.Size(1260, 664);
+            this.textBoxLog.Size = new System.Drawing.Size(1261, 361);
             this.textBoxLog.TabIndex = 0;
             // 
             // pictureBoxGraphics
