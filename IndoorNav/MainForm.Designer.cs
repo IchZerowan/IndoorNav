@@ -37,6 +37,7 @@
             this.textBoxLog.Location = new System.Drawing.Point(0, 0);
             this.textBoxLog.Multiline = true;
             this.textBoxLog.Name = "textBoxLog";
+            this.textBoxLog.ReadOnly = true;
             this.textBoxLog.Size = new System.Drawing.Size(1018, 558);
             this.textBoxLog.TabIndex = 0;
             // 
