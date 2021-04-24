@@ -42,16 +42,18 @@ namespace IndoorNav
         public static int GetClosest(Point position)
         {
             double minDistance = double.MaxValue;
-            foreach(Point pt in coords)
+            int closest = 0;
+            for(int i = 0; i < coords.Length; i++)
             {
+                Point pt = coords[i];
                 double distance = pt.Distance(position);
                 if(distance < minDistance)
                 {
-
+                    closest = i;
                     minDistance = distance;
                 }
             }
-            return 0;
+            return closest + 1;
         }
     }
 }

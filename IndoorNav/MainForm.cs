@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
+using System.IO;
 
 namespace IndoorNav
 {
     public partial class MainForm : Form
     {
-        private static MainForm instance;
-
         public MainForm()
         {
             InitializeComponent();
@@ -16,26 +15,48 @@ namespace IndoorNav
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            instance = this;
-            var data = CSVParser.ReadCSV("data-1-1.csv");
+            Process("1-1");
+            Process("1-2");
+            Process("1-3");
+            Process("2-1");
+            Process("2-6");
+        }
+
+        private void Process(string name) {
+            var data = CSVParser.ReadCSV("data-" + name + ".csv");
+
+            int invalidCount = 0;
 
             List<PointData> temp = new List<PointData>();
             foreach (PointData pd in data)
             {
                 if (temp.Where(x => x.id == pd.id).Count() != 0)
                 {
-                    if(temp.Count >= 3)
+                    Log("Temp count: " + temp.Count);
+                    if (temp.Count >= 3)
                     {
                         temp.Sort((pd1, pd2) => pd1.rssi.CompareTo(pd2.rssi));
                         temp.Reverse();
-                        temp = temp.Take(3).ToList();
-                        Point p = Algorithm.Trilateration(temp[0], temp[1], temp[2]);
-                        if(p != null)
+                        Point p = null;
+                        int skip = 0;
+                        while (p == null)
                         {
-                            Log("C" + RoomData.GetRoom(p) + " B" + RoomData.GetClosest(p));
-                        } else
+                            List<PointData> result = temp.Skip(skip++).Take(3).ToList();
+                            if (result.Count < 3)
+                            {
+                                break;
+                            }
+                            p = Algorithm.Trilateration(temp[0], temp[1], temp[2]);
+                        }
+
+                        if (p != null)
                         {
-                            
+                            Out("C" + RoomData.GetRoom(p) + " B" + RoomData.GetClosest(p));
+                        }
+                        else
+                        {
+                            Log("No intersections");
+                            invalidCount++;
                         }
                     }
                     temp.Clear();
@@ -44,23 +65,34 @@ namespace IndoorNav
                 temp.Add(pd);
             }
 
-            for(int i = 0; i < data.Count - 2; i++)
-            {
-                Point p = Algorithm.Trilateration(data[i], data[i + 1], data[i + 2]);
-                if(p == null)
-                {
-                    Log("invalid");
-                    continue;
-                }
-                int room = RoomData.GetRoom(p);
-                Log("C" + room);
-            }
+            Log("Invalid count: " + invalidCount);
+
+            SaveFile("out-" + name + ".txt");
         }
 
-        public static void Log(object message)
+        public void Log(string message)
         {
             Console.WriteLine(message);
-            instance.textBoxLog.AppendText(message + "\n");
+            textBoxLog.AppendText(message + "\r\n");
+        }
+
+        private string result = "";
+        private string previous = "";
+        public void Out(string message)
+        {
+            Log(message);
+            if(previous == message)
+            {
+                return;
+            }
+            previous = message;
+            result += message + "\n";
+        }
+
+        public void SaveFile(string filename)
+        {
+            File.WriteAllText(filename, result);
+            result = "";
         }
     }
 }

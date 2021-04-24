@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace IndoorNav
 {
@@ -25,6 +26,8 @@ namespace IndoorNav
                     data.Add(pd);
                 }
             }
+
+            data.Sort((pd1, pd2) => pd1.timestamp.CompareTo(pd2.timestamp));
 
             return data;
         }

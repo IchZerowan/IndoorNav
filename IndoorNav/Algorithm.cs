@@ -5,7 +5,7 @@ namespace IndoorNav
 {
     class Algorithm
     {
-        public const double MEASURED_POWER = -62;
+        public const double MEASURED_POWER = -51;
 
         public static Point Trilateration(PointData pd1, PointData pd2, PointData pd3)
         {
