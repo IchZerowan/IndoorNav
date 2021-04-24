@@ -15,14 +15,23 @@ namespace IndoorNav
 
             Graphics g = Graphics.FromImage(img);
 
+
+            PointF lastP = new PointF(-1, -1);
             foreach(var i in data)
             {
                 PointF pf = GetXYinPix(i, img);
-                g.DrawEllipse(Pens.Red, new Rectangle((int)pf.X, (int)pf.Y, 3, 3));
+
+                if (lastP.X == -1)
+                    lastP = pf;
+                Pen redPen = new Pen(Brushes.Red, 5);
+                g.DrawEllipse(redPen, new Rectangle((int)pf.X, (int)pf.Y, 3, 3));
+                g.DrawLine(redPen, lastP.X, lastP.Y, pf.X, pf.Y);
+                lastP = pf;
+
             }
             g.DrawImage(img,new System.Drawing.Point(0,0));
 
-            img.Save("img.Jpeg", System.Drawing.Imaging.ImageFormat.Jpeg);
+            img.Save("img.jpeg", System.Drawing.Imaging.ImageFormat.Jpeg);
 
             return img;
         }

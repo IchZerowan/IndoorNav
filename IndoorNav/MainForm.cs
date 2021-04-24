@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Linq;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace IndoorNav
 {
@@ -69,6 +71,7 @@ namespace IndoorNav
             Log("Invalid count: " + invalidCount);
 
             SaveFile("out-" + name + ".txt");
+
         }
 
         public void Log(string message)
@@ -96,9 +99,27 @@ namespace IndoorNav
         public void SaveFile(string filename)
         {
             File.WriteAllText(filename, result);
-            DrawPointsOnImage.Draw(points, pictureBoxGraphics.Image);
+            //DrawPointsOnImage.Draw(points, pictureBoxGraphics.Image);
+            Task.Run(()=> DrawAnim(new List<Point>(points)));
+
             points.Clear();
             result = "";
+        }
+
+        public async Task<bool> DrawAnim(List<Point> lp)
+        {
+            List<Point> c_lp = new List<Point>(lp);
+
+            List<Point> draw_lp = new List<Point>();
+
+            for (int i = 0; i < c_lp.Count; i++)
+            {
+                draw_lp.Add(c_lp[i]);
+                pictureBoxGraphics.Image = DrawPointsOnImage.Draw(draw_lp, pictureBoxGraphics.Image);
+                pictureBoxGraphics.Refresh();
+                Thread.Sleep(1000);
+            }
+            return true;
         }
     }
 }
