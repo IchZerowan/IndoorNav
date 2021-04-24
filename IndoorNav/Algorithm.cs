@@ -5,7 +5,7 @@ namespace IndoorNav
 {
     class Algorithm
     {
-        public const double MEASURED_POWER = -69;
+        public const double MEASURED_POWER = -62;
 
         public static Point Trilateration(PointData pd1, PointData pd2, PointData pd3)
         {
@@ -54,7 +54,7 @@ namespace IndoorNav
             (double x1, double y1, double x2, double y2) = (c1.X, c1.Y, c2.X, c2.Y);
             double d = c1.Distance(c2);
 
-            if (!(Math.Abs(r1 - r2) <= d && d <= r1 + r2)) 
+            if (Math.Abs(r1 - r2) > d || d > r1 + r2) 
                 return; 
 
             var dsq = d * d;
@@ -69,8 +69,8 @@ namespace IndoorNav
             var fy = (y1 + y2) / 2 + a * (y2 - y1);
             var gy = c * (x1 - x2) / 2;
 
-            var i1 = new Point((float)(fx + gx), (float)(fy + gy));
-            var i2 = new Point((float)(fx - gx), (float)(fy - gy));
+            var i1 = new Point(fx + gx, fy + gy);
+            var i2 = new Point(fx - gx, fy - gy);
 
             results.Add(i1);
             results.Add(i2);
