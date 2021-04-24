@@ -10,11 +10,19 @@ using System.Windows.Forms;
 
 namespace IndoorNav
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
-        public Form1()
+        private static MainForm instance;
+
+        public MainForm()
         {
             InitializeComponent();
+        }
+
+        public static void Log(object message)
+        {
+            Console.WriteLine(message);
+            instance.textBoxLog.AppendText(message + "\n");
         }
     }
 }
