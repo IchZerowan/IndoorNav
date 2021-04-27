@@ -17,7 +17,13 @@ namespace IndoorNav
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Process("1-3");
+            Process("1-4");
+            Process("1-5");
+            Process("1-6");
+            Process("2-2");
+            Process("2-3");
+            Process("2-4");
+            Process("2-5");
             //Process("1-2");
             //Process("1-3");
             //Process("2-1");
@@ -102,9 +108,9 @@ namespace IndoorNav
                         Log(message);
                         Log(p.X + ";" + p.Y);
                         result += message + "\n";
+                        points.Add(new PointTime(p, time));
                     }
                     previous = message;
-                    points.Add(new PointTime(p, time));
                 }
             } else
             {
@@ -118,7 +124,7 @@ namespace IndoorNav
             File.WriteAllText(filename, result);
             List<Point> toDraw = new List<Point>();
             toDraw.AddRange(points.Select(pointTime => pointTime.Point));
-            Task.Run(()=> DrawAnim(toDraw));
+            //Task.Run(()=> DrawAnim(toDraw));
 
             points.Clear();
             result = "";
